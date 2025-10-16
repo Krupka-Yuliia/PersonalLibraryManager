@@ -1,0 +1,15 @@
+### GET all users
+GET localhost:3000/users
+
+### GET user by id
+GET localhost:3000/users/1
+
+### POST create user
+POST localhost:3000/users
+Content-Type: application/json
+
+{
+  "name": "Harry Potter",
+  "email": "harrypotter@gmail.com",
+  "role": "ADMIN"
+}
