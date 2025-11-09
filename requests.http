@@ -21,7 +21,7 @@ Content-Type: application/json
 }
 
 ### update user
-PATCH localhost:3000/users/2
+PATCH localhost:3000/users/10
 Content-Type: application/json
 
 {
@@ -30,3 +30,33 @@ Content-Type: application/json
 
 ### DELETE user by id
 DELETE localhost:3000/users/2
+
+
+
+
+
+
+### GET genres
+GET localhost:3000/genres
+
+### GET genres by id
+GET localhost:3000/genres/3
+
+### DELETE genres by id
+DELETE localhost:3000/genres/3
+
+### POST create genre
+POST localhost:3000/genres
+Content-Type: application/json
+
+{
+  "name": "Comedy"
+}
+
+### Update genre by id
+PATCH localhost:3000/genres/4
+Content-Type: application/json
+
+{
+  "name": "Fantasy"
+}
