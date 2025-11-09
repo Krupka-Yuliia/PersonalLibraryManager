@@ -3,11 +3,11 @@ GET localhost:3000/users
 
 
 ### GET all admins
-GET localhost:3000/users?role=DAVE
+GET localhost:3000/users?role=USER
 
 
 ### GET user by id
-GET localhost:3000/users/100
+GET localhost:3000/users/2
 
 
 ### POST create user
@@ -15,18 +15,18 @@ POST localhost:3000/users
 Content-Type: application/json
 
 {
-  "name": "Harry Potter 2",
-  "email": "harrypotter@gmail.com",
-  "role": "DAVE"
+  "name": "Harry Potter",
+  "email": "harrypotter4@gmail.com",
+  "role": "ADMIN"
 }
 
 ### update user
-PATCH localhost:3000/users/6
+PATCH localhost:3000/users/2
 Content-Type: application/json
 
 {
-  "name": 123
+  "email": "harrypotter3@gmail.com"
 }
 
 ### DELETE user by id
-DELETE localhost:3000/users/6
+DELETE localhost:3000/users/2

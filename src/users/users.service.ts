@@ -1,51 +1,70 @@
-import { Injectable } from '@nestjs/common';
-import { users } from './users.mock';
+import {
+  Injectable,
+  NotFoundException,
+  ConflictException,
+  BadRequestException,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { User, Role } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class UsersService {
-  private users = users;
+  constructor(
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
+  ) {}
 
-  findAll(role?: 'USER' | 'ADMIN') {
+  async findAll(role?: string): Promise<User[]> {
     if (role) {
-      const rolesArray = this.users.filter((user) => user.role === role);
-      if (rolesArray.length === 0) {
-        throw new NotFoundException(`Users with role ${role} not found`);
+      if (!Object.values(Role).includes(role as Role)) {
+        throw new BadRequestException(
+          `Invalid role "${role}". Must be USER or ADMIN`,
+        );
       }
-      return rolesArray;
     }
-    return this.users;
+
+    return this.userRepository.find({
+      where: role ? { role: role as Role } : {},
+    });
   }
 
-  findOne(id: number) {
-    const user = this.users.find((user) => user.id === id);
-    if (!user) {
-      throw new NotFoundException(`User with id ${id} not found`);
-    }
+  async findOne(id: number): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { id } });
+    if (!user) throw new NotFoundException(`User with ID ${id} not found`);
     return user;
   }
 
-  create(createUserDto: CreateUserDto) {
-    const newUser = { id: this.users.length + 1, ...createUserDto };
-    this.users.push(newUser);
-    return newUser;
-  }
-
-  update(id: number, userUpdateDto: UpdateUserDto) {
-    this.users = this.users.map((user) => {
-      if (user.id === id) {
-        return { ...user, ...userUpdateDto };
-      }
-      return user;
+  async create(dto: CreateUserDto): Promise<User> {
+    const existing = await this.userRepository.findOne({
+      where: { email: dto.email },
     });
-    return this.findOne(id);
+    if (existing) throw new ConflictException('Email already exists');
+    const user = this.userRepository.create(dto);
+    return this.userRepository.save(user);
   }
 
-  delete(id: number) {
-    const removeUser = this.findOne(id);
-    this.users = this.users.filter((user) => user.id !== id);
-    return removeUser;
+  async update(id: number, dto: UpdateUserDto): Promise<User> {
+    const user = await this.findOne(id);
+
+    if (dto.email && dto.email !== user.email) {
+      const existingUser = await this.userRepository.findOne({
+        where: { email: dto.email },
+      });
+      if (existingUser) {
+        throw new ConflictException(`Email "${dto.email}" already exists`);
+      }
+    }
+
+    Object.assign(user, dto);
+
+    return this.userRepository.save(user);
+  }
+
+  async delete(id: number): Promise<User> {
+    const user = await this.findOne(id);
+    return this.userRepository.remove(user);
   }
 }
