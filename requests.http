@@ -60,3 +60,33 @@ Content-Type: application/json
 {
   "name": "Fantasy"
 }
+
+
+### AUTHORS
+
+### GET all authors
+GET localhost:3000/authors
+
+### POST create author
+POST localhost:3000/authors
+Content-Type: application/json
+
+{
+  "name": "Stephen King"
+}
+
+### GET author by id
+GET localhost:3000/authors/1
+
+### PATCH author by id
+PATCH localhost:3000/authors/1
+Content-Type: application/json
+
+{
+  "name": "Artur Conan Doyle"
+}
+
+### DELETE author by id
+DELETE localhost:3000/authors/1
+
+
