@@ -9,6 +9,8 @@ import * as dotenv from 'dotenv';
 import { Genre } from './genres/genre.entity';
 import { AuthorsModule } from './authors/authors.module';
 import { Author } from './authors/author.entity';
+import { BooksModule } from './books/books.module';
+import { Book } from './books/book.enity';
 
 dotenv.config();
 
@@ -21,12 +23,13 @@ dotenv.config();
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [User, Genre, Author],
+      entities: [User, Genre, Author, Book],
       synchronize: true,
     }),
     UsersModule,
     GenresModule,
     AuthorsModule,
+    BooksModule,
   ],
   controllers: [AppController],
   providers: [AppService],
