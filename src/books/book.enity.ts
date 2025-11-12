@@ -33,9 +33,6 @@ export class Book {
   description: string;
 
   @Column({ type: 'int', nullable: true })
-  rating: number;
-
-  @Column({ type: 'int', nullable: true })
   year: number;
 
   @CreateDateColumn({ type: 'timestamp' })

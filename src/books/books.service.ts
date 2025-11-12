@@ -24,7 +24,7 @@ export class BooksService {
     private readonly genreRepository: Repository<Genre>,
   ) {}
 
-  async create(createBookDto: CreateBookDto, file?: Express.Multer.File) {
+  async create(createBookDto: CreateBookDto, file: Express.Multer.File) {
     const book = this.booksRepository.create(createBookDto);
 
     if (createBookDto.authorId) {

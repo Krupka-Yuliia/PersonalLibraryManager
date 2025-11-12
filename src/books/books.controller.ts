@@ -52,7 +52,7 @@ export class BooksController {
   )
   async create(
     @Body() createBookDto: CreateBookDto,
-    @UploadedFile() file?: Express.Multer.File,
+    @UploadedFile() file: Express.Multer.File,
   ) {
     return this.booksService.create(createBookDto, file);
   }

@@ -1,4 +1,4 @@
-import { IsString, IsInt, Min, Max } from 'class-validator';
+import { IsString, IsInt, Min } from 'class-validator';
 
 export class CreateBookDto {
   @IsString()
@@ -16,11 +16,6 @@ export class CreateBookDto {
 
   @IsString()
   description?: string;
-
-  @IsInt()
-  @Min(1)
-  @Max(5)
-  rating?: number;
 
   @IsInt()
   year?: number;
