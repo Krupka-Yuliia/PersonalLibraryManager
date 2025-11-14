@@ -115,7 +115,7 @@ Content-Type: application/json
 GET localhost:3000/user-books/1
 
 
-### GET all user book by id
+### GET all user book
 GET localhost:3000/user-books
 
 ### DELETE
@@ -129,11 +129,11 @@ POST http://localhost:3000/reading-goals
 Content-Type: application/json
 
 {
-"user_id": 3,
-"goal_name": "Read 10 books in summer",
-"target_books": 10,
-"start_date": "2025-06-01",
-"end_date": "2025-09-01"
+  "user_id": 3,
+  "goal_name": "Read 10 books in summer",
+  "target_books": 10,
+  "start_date": "2025-06-01",
+  "end_date": "2025-09-01"
 }
 
 ### GET reading goal by id
@@ -144,3 +144,26 @@ GET localhost:3000/reading-goals
 
 ### GET all reading goals per user
 GET http://localhost:3000/reading-goals/user/3
+
+
+
+### GET all notes
+GET localhost:3000/notes
+
+### POST create note
+POST localhost:3000/notes
+Content-Type: application/json
+
+{
+  "content": "I hate main character!!!",
+  "user_book_id": 1
+}
+
+### GET note by user book
+GET localhost:3000/notes/user-book/1
+
+### GET note by id
+GET localhost:3000/notes/2
+
+### DELETE note by id
+DELETE localhost:3000/notes/2

@@ -15,6 +15,8 @@ import { ReadingGoalsModule } from './reading-goals/reading-goals.module';
 import { UserBooksModule } from './user-book/user-book.module';
 import { UserBook } from './user-book/user-book.entity';
 import { ReadingGoal } from './reading-goals/reading-goal.entity';
+import { NoteModule } from './notes/notes.module';
+import { Note } from './notes/note.entity';
 
 dotenv.config();
 
@@ -27,7 +29,7 @@ dotenv.config();
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [User, Genre, Author, Book, UserBook, ReadingGoal],
+      entities: [User, Genre, Author, Book, UserBook, ReadingGoal, Note],
       synchronize: true,
     }),
     UsersModule,
@@ -36,6 +38,7 @@ dotenv.config();
     BooksModule,
     ReadingGoalsModule,
     UserBooksModule,
+    NoteModule,
   ],
   controllers: [AppController],
   providers: [AppService],

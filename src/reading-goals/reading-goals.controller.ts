@@ -6,7 +6,8 @@ import {
   Delete,
   Param,
   Body,
-  HttpCode, ParseIntPipe,
+  HttpCode,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { UpdateReadingGoalDto } from './dto/update-reading-goal.dto';
 import { CreateReadingGoalDto } from './dto/create-reading-goals.dto';
