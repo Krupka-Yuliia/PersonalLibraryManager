@@ -33,11 +33,11 @@ export class UserBook {
   status: string;
 
   @Column({ type: 'timestamp', nullable: true })
-  completed_at?: Date;
+  completedAt?: Date;
 
   @CreateDateColumn({ type: 'timestamp' })
-  created_at: Date;
+  createdAt: Date;
 
   @UpdateDateColumn({ type: 'timestamp' })
-  updated_at: Date;
+  updatedAt: Date;
 }

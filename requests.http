@@ -7,7 +7,7 @@ GET localhost:3000/users?role=USER
 
 
 ### GET user by id
-GET localhost:3000/users/2
+GET localhost:3000/users/1
 
 
 ### POST create user
@@ -21,7 +21,7 @@ Content-Type: application/json
 }
 
 ### update user
-PATCH localhost:3000/users/10
+PATCH localhost:3000/users/1
 Content-Type: application/json
 
 {
@@ -92,13 +92,20 @@ DELETE localhost:3000/authors/1
 
 
 
+###GET all books
+GET localhost:3000/books
+
+
+
+
+
 ### POST create user book
 POST http://localhost:3000/user-books
 Content-Type: application/json
 
 {
-  "userId": 3,
-  "bookId": 2,
+  "userId": 1,
+  "bookId": 1,
   "rating": 5,
   "status": "completed"
 }
@@ -108,7 +115,7 @@ PATCH http://localhost:3000/user-books/1
 Content-Type: application/json
 
 {
-  "completed_at": "2024-12-26T00:00:00Z"
+  "completedAt": "2024-12-26T00:00:00Z"
 }
 
 ###GET user book by id
@@ -129,11 +136,11 @@ POST http://localhost:3000/reading-goals
 Content-Type: application/json
 
 {
-  "user_id": 3,
-  "goal_name": "Read 10 books in summer",
-  "target_books": 10,
-  "start_date": "2025-06-01",
-  "end_date": "2025-09-01"
+  "userId": 1,
+  "goalName": "Read 10 books in summer",
+  "targetBooks": 10,
+  "startDate": "2025-06-01",
+  "endDate": "2025-09-01"
 }
 
 ### GET reading goal by id
@@ -143,7 +150,7 @@ GET localhost:3000/reading-goals/1
 GET localhost:3000/reading-goals
 
 ### GET all reading goals per user
-GET http://localhost:3000/reading-goals/user/3
+GET http://localhost:3000/reading-goals/user/1
 
 
 
@@ -155,8 +162,19 @@ POST localhost:3000/notes
 Content-Type: application/json
 
 {
+  "content": "I hate main character 2!!!",
+  "userBookId": 1,
+  "pageNumber": 10
+}
+
+### update note
+PATCH localhost:3000/notes/1
+Content-Type: application/json
+
+{
   "content": "I hate main character!!!",
-  "user_book_id": 1
+  "userBookId": 1,
+  "pageNumber": 10
 }
 
 ### GET note by user book

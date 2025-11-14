@@ -24,10 +24,10 @@ export class Book {
   genre: Genre;
 
   @Column({ type: 'int' })
-  total_pages: number;
+  totalPages: number;
 
   @Column({ type: 'varchar', nullable: true })
-  cover_url: string;
+  coverUrl: string;
 
   @Column({ type: 'varchar', nullable: true })
   description: string;
@@ -36,8 +36,8 @@ export class Book {
   year: number;
 
   @CreateDateColumn({ type: 'timestamp' })
-  created_at: Date;
+  createdAt: Date;
 
   @UpdateDateColumn({ type: 'timestamp' })
-  updated_at: Date;
+  updatedAt: Date;
 }

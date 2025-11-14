@@ -16,23 +16,23 @@ export class ReadingGoal {
   user: User;
 
   @Column({ type: 'varchar', nullable: false })
-  goal_name: string;
+  goalName: string;
 
   @Column({ type: 'int', nullable: false })
-  target_books: number;
+  targetBooks: number;
 
   @Column({ type: 'int', default: 0 })
-  completed_books: number;
+  completedBooks: number;
 
   @Column({ type: 'date', nullable: false })
-  start_date: Date;
+  startDate: Date;
 
   @Column({ type: 'date', nullable: false })
-  end_date: Date;
+  endDate: Date;
 
   @CreateDateColumn({ type: 'timestamp' })
-  created_at: Date;
+  createdAt: Date;
 
   @Column({ type: 'boolean', default: true })
-  is_active: boolean;
+  isActive: boolean;
 }

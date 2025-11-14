@@ -2,9 +2,14 @@ import { IsInt, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateNoteDto {
   @IsInt()
-  user_book_id: number;
+  @IsNotEmpty()
+  userBookId: number;
 
   @IsString()
   @IsNotEmpty()
   content: string;
+
+  @IsNotEmpty()
+  @IsInt()
+  pageNumber: number;
 }

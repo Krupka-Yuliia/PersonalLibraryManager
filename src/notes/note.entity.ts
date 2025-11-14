@@ -13,7 +13,7 @@ export class Note {
   id: number;
 
   @Column()
-  user_book_id: number;
+  userBookId: number;
 
   @ManyToOne(() => UserBook)
   @JoinColumn({ name: 'user_book_id' })
@@ -22,9 +22,12 @@ export class Note {
   @Column('text')
   content: string;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  created_at: Date;
+  @Column()
+  pageNumber: number;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  updated_at: Date;
+  createdAt: Date;
+
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  updatedAt: Date;
 }

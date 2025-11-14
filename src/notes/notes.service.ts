@@ -31,20 +31,20 @@ export class NoteService {
     const note = await this.findOne(id);
 
     Object.assign(note, dto);
-    note.updated_at = new Date();
+    note.updatedAt = new Date();
 
     return this.noteRepo.save(note);
   }
 
   async remove(id: number): Promise<void> {
-    const note = await this.findOne(id);
-    await this.noteRepo.delete(note);
+    await this.findOne(id);
+    await this.noteRepo.delete(id);
   }
 
   async findByUserBook(userBookId: number): Promise<Note[]> {
     return this.noteRepo.find({
-      where: { user_book_id: userBookId },
-      order: { created_at: 'DESC' },
+      where: { userBookId: userBookId },
+      order: { createdAt: 'DESC' },
     });
   }
 }

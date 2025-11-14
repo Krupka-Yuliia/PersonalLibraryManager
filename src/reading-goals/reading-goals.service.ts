@@ -17,18 +17,18 @@ export class ReadingGoalsService {
 
   async create(dto: CreateReadingGoalDto): Promise<ReadingGoal> {
     const user = await this.userRepository.findOne({
-      where: { id: dto.user_id },
+      where: { id: dto.userId },
     });
     if (!user) throw new NotFoundException('User not found');
 
     const goal = this.readingGoalsRepository.create({
       user,
-      goal_name: dto.goal_name,
-      target_books: dto.target_books,
-      completed_books: dto.completed_books ?? 0,
-      start_date: dto.start_date,
-      end_date: dto.end_date,
-      is_active: dto.is_active ?? true,
+      goalName: dto.goalName,
+      targetBooks: dto.targetBooks,
+      completedBooks: dto.completedBooks ?? 0,
+      startDate: dto.startDate,
+      endDate: dto.endDate,
+      isActive: dto.isActive ?? true,
     });
 
     return this.readingGoalsRepository.save(goal);

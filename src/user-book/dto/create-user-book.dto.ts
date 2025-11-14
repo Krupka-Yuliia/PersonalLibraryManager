@@ -1,4 +1,4 @@
-import { IsInt, IsIn, Min, Max, IsOptional } from 'class-validator';
+import { IsInt, Min, Max, IsOptional, IsEnum } from 'class-validator';
 
 export enum Status {
   ToRead = 'to-read',
@@ -8,20 +8,20 @@ export enum Status {
 
 export class CreateUserBookDto {
   @IsInt()
-  user_id: number;
+  userId: number;
 
   @IsInt()
-  book_id: number;
+  bookId: number;
 
   @IsInt()
   @IsOptional()
   @Min(1)
   @Max(5)
-  rating?: number;
+  rating: number;
 
-  @IsIn(['to-read', 'reading', 'completed'])
+  @IsEnum(Status, { message: 'Role must be to-read, reading or completed' })
   status: Status;
 
   @IsOptional()
-  completed_at?: Date;
+  completedAt: Date;
 }

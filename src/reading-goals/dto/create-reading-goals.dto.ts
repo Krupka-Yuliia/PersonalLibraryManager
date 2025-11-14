@@ -9,26 +9,26 @@ import {
 
 export class CreateReadingGoalDto {
   @IsInt()
-  user_id: number;
+  userId: number;
 
   @IsString()
-  goal_name: string;
+  goalName: string;
 
   @IsInt()
   @Min(1)
-  target_books: number;
+  targetBooks: number;
 
   @IsOptional()
   @IsInt()
-  completed_books?: number;
+  completedBooks?: number;
 
   @IsDateString()
-  start_date: string;
+  startDate: string;
 
   @IsDateString()
-  end_date: string;
+  endDate: string;
 
   @IsOptional()
   @IsBoolean()
-  is_active?: boolean;
+  isActive?: boolean;
 }

@@ -48,7 +48,7 @@ export class BooksService {
     }
 
     if (file) {
-      book.cover_url = `/uploads/covers/${file.filename}`;
+      book.coverUrl = `/uploads/covers/${file.filename}`;
     }
 
     return this.booksRepository.save(book);
@@ -82,8 +82,8 @@ export class BooksService {
 
     const book = await this.findOne(id);
 
-    if (file && book.cover_url) {
-      const oldFilePath = path.join(process.cwd(), book.cover_url);
+    if (file && book.coverUrl) {
+      const oldFilePath = path.join(process.cwd(), book.coverUrl);
       if (fs.existsSync(oldFilePath)) {
         fs.unlinkSync(oldFilePath);
       }
@@ -92,7 +92,7 @@ export class BooksService {
     Object.assign(book, updateBookDto);
 
     if (file) {
-      book.cover_url = `/uploads/covers/${file.filename}`;
+      book.coverUrl = `/uploads/covers/${file.filename}`;
     }
 
     return await this.booksRepository.save(book);
@@ -101,8 +101,8 @@ export class BooksService {
   async remove(id: number): Promise<void> {
     const book = await this.findOne(id);
 
-    if (book.cover_url) {
-      const filePath = path.join(process.cwd(), book.cover_url);
+    if (book.coverUrl) {
+      const filePath = path.join(process.cwd(), book.coverUrl);
       if (fs.existsSync(filePath)) {
         fs.unlinkSync(filePath);
       }

@@ -12,7 +12,7 @@ export class CreateBookDto {
 
   @IsInt()
   @Min(1)
-  total_pages: number;
+  totalPages: number;
 
   @IsString()
   description?: string;

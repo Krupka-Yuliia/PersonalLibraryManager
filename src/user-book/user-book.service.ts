@@ -23,15 +23,15 @@ export class UserBooksService {
   ) {}
 
   async create(dto: CreateUserBookDto): Promise<UserBook> {
-    const user = await this.userRepo.findOneBy({ id: dto.user_id });
-    const book = await this.bookRepo.findOneBy({ id: dto.book_id });
+    const user = await this.userRepo.findOneBy({ id: dto.userId });
+    const book = await this.bookRepo.findOneBy({ id: dto.bookId });
 
     if (!user || !book) {
       throw new NotFoundException('User or Book not found.');
     }
 
     const existing = await this.userBookRepo.findOne({
-      where: { user: { id: dto.user_id }, book: { id: dto.book_id } },
+      where: { user: { id: dto.userId }, book: { id: dto.bookId } },
     });
 
     if (existing) {
