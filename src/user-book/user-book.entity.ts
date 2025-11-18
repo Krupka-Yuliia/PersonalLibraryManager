@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { User } from '../users/entities/user.entity';
 import { Book } from '../books/book.enity';
+import { Status } from './dto/create-user-book.dto';
 
 @Entity('user_books')
 @Unique(['user', 'book'])
@@ -23,17 +24,27 @@ export class UserBook {
   book: Book;
 
   @Column({ type: 'int', nullable: true, comment: 'User rating 1-5' })
-  rating?: number;
+  rating?: number | null;
 
   @Column({
-    type: 'varchar',
-    default: 'to-read',
+    type: 'enum',
+    enum: Status,
+    default: Status.ToRead,
     comment: 'to-read / reading / completed',
   })
-  status: string;
+  status: Status;
+
+  @Column({ type: 'int', default: 0, comment: 'Current page number' })
+  currentPage: number;
 
   @Column({ type: 'timestamp', nullable: true })
-  completedAt?: Date;
+  startedAt?: Date | null;
+
+  @Column({ type: 'timestamp', nullable: true })
+  completedAt?: Date | null;
+
+  @Column({ type: 'text', nullable: true })
+  review?: string | null;
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;

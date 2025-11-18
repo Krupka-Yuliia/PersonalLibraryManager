@@ -185,3 +185,182 @@ GET localhost:3000/notes/2
 
 ### DELETE note by id
 DELETE localhost:3000/notes/2
+
+
+
+### USER-BOOKS - БАЗОВІ ОПЕРАЦІЇ
+### ============================================
+
+### POST - Створити запис книги для користувача
+POST http://localhost:3000/user-books
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "bookId": 1,
+  "rating": 5,
+  "status": "to-read"
+}
+
+### GET - Отримати всі записи user-books
+GET http://localhost:3000/user-books
+
+### GET - Отримати user-book за ID
+GET http://localhost:3000/user-books/1
+
+### PATCH - Оновити user-book (загальне оновлення)
+PATCH http://localhost:3000/user-books/1
+Content-Type: application/json
+
+{
+  "rating": 4,
+  "completedAt": "2024-12-26T00:00:00Z"
+}
+
+### DELETE - Видалити user-book
+DELETE http://localhost:3000/user-books/2
+
+### ============================================
+### ФІЛЬТРАЦІЯ ТА ПОШУК
+### ============================================
+
+### GET - Отримати всі книги користувача (без фільтрів)
+GET http://localhost:3000/user-books/user/1
+
+### GET - Фільтр по статусу (to-read)
+GET http://localhost:3000/user-books/user/1?status=to-read
+
+### GET - Фільтр по статусу (reading)
+GET http://localhost:3000/user-books/user/1?status=reading
+
+### GET - Фільтр по статусу (completed)
+GET http://localhost:3000/user-books/user/1?status=completed
+
+### GET - Фільтр по автору
+GET http://localhost:3000/user-books/user/1?authorId=1
+
+### GET - Фільтр по жанру
+GET http://localhost:3000/user-books/user/1?genreId=1
+
+### GET - Комбіновані фільтри (статус + автор)
+GET http://localhost:3000/user-books/user/1?status=to-read&authorId=1
+
+### GET - Комбіновані фільтри (статус + жанр + автор)
+GET http://localhost:3000/user-books/user/1?status=to-read&authorId=1&genreId=1
+
+### GET - Пошук книг по назві або автору
+GET http://localhost:3000/user-books/user/1/search?q=bad
+
+### GET - Пошук по назві автора
+GET http://localhost:3000/user-books/user/1/search?q=stephen
+
+
+
+### ============================================
+### ТЕСТОВІ СЦЕНАРІЇ
+### ============================================
+
+### СЦЕНАРІЙ 1: Додати нову книгу і почати читати
+# 1. Додати книгу зі статусом "to-read"
+POST http://localhost:3000/user-books
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "bookId": 2,
+  "status": "to-read"
+}
+
+### 2. Оновити прогрес (автоматично змінить статус на "reading")
+PATCH http://localhost:3000/user-books/1/progress
+Content-Type: application/json
+
+{
+"currentPage": 25
+}
+
+### 3. Перевірити результат
+GET http://localhost:3000/user-books/1
+
+
+### СЦЕНАРІЙ 2: Дочитати книгу
+PATCH http://localhost:3000/user-books/1/progress
+Content-Type: application/json
+
+{
+  "currentPage": 150
+}
+
+### 2. Дочитати книгу (припустимо, 300 сторінок)
+PATCH http://localhost:3000/user-books/1/progress
+Content-Type: application/json
+
+{
+"currentPage": 300
+}
+
+### 3. Додати рейтинг
+PATCH http://localhost:3000/user-books/1
+Content-Type: application/json
+
+{
+"rating": 5
+}
+
+
+### СЦЕНАРІЙ 3: Отримати книги зі статусом "reading"
+GET http://localhost:3000/user-books/user/1?status=reading
+
+
+### СЦЕНАРІЙ 4: Перевірити статистику
+GET http://localhost:3000/user-books/user/1/stats
+
+
+
+### ============================================
+### ВАЛІДАЦІЯ ПОМИЛОК
+### ============================================
+
+### TEST - Невірний статус (повинен повернути помилку)
+PATCH http://localhost:3000/user-books/1/status
+Content-Type: application/json
+
+{
+  "status": "invalid-status"
+}
+
+### TEST - Від'ємна сторінка (повинен повернути помилку)
+PATCH http://localhost:3000/user-books/1/progress
+Content-Type: application/json
+
+{
+  "currentPage": -10
+}
+
+### TEST - Рейтинг поза діапазоном (повинен повернути помилку)
+PATCH http://localhost:3000/user-books/1
+Content-Type: application/json
+
+{
+  "rating": 10
+}
+
+### TEST - Неіснуючий користувач або книга
+POST http://localhost:3000/user-books
+Content-Type: application/json
+
+{
+  "userId": 9999,
+  "bookId": 9999,
+  "status": "to-read"
+}
+
+### TEST - Дублікат запису (користувач вже додав цю книгу)
+POST http://localhost:3000/user-books
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "bookId": 1,
+  "status": "to-read"
+}
