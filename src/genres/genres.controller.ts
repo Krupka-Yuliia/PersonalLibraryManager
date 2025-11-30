@@ -8,13 +8,19 @@ import {
   Body,
   ParseIntPipe,
   HttpCode,
+  UseGuards,
 } from '@nestjs/common';
 import { GenresService } from './genres.service';
 import { CreateGenreDto } from './dto/create-genre.dto';
 import { UpdateGenreDto } from './dto/update-genre.dto';
 import { Genre } from './genre.entity';
+import { JwtAuthGuard } from '../auth/utils/Guards';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { Role } from '../users/entities/user.entity';
 
 @Controller('genres')
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class GenresController {
   constructor(private readonly genresService: GenresService) {}
 
@@ -34,6 +40,7 @@ export class GenresController {
   }
 
   @Patch(':id')
+  @Roles(Role.ADMIN)
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateGenreDto,
@@ -43,6 +50,7 @@ export class GenresController {
 
   @Delete(':id')
   @HttpCode(204)
+  @Roles(Role.ADMIN)
   delete(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return this.genresService.delete(id);
   }

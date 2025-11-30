@@ -17,6 +17,7 @@ import { UserBook } from './user-book/user-book.entity';
 import { ReadingGoal } from './reading-goals/reading-goal.entity';
 import { NoteModule } from './notes/notes.module';
 import { Note } from './notes/note.entity';
+import { AuthModule } from './auth/auth.module';
 
 dotenv.config();
 
@@ -39,6 +40,7 @@ dotenv.config();
     ReadingGoalsModule,
     UserBooksModule,
     NoteModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

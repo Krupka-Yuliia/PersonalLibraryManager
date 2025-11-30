@@ -110,4 +110,20 @@ export class BooksService {
 
     await this.booksRepository.remove(book);
   }
+
+  async search(searchTerm: string): Promise<Book[]> {
+    if (!searchTerm || searchTerm.trim().length === 0) {
+      return this.findAll();
+    }
+
+    return this.booksRepository
+      .createQueryBuilder('book')
+      .leftJoinAndSelect('book.author', 'author')
+      .leftJoinAndSelect('book.genre', 'genre')
+      .where(
+        '(LOWER(book.title) LIKE LOWER(:search) OR LOWER(author.name) LIKE LOWER(:search) OR LOWER(book.isbn) LIKE LOWER(:search))',
+        { search: `%${searchTerm.trim()}%` },
+      )
+      .getMany();
+  }
 }

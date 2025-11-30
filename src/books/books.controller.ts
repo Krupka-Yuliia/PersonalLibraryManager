@@ -11,6 +11,8 @@ import {
   BadRequestException,
   HttpCode,
   Patch,
+  UseGuards,
+  Query,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -18,8 +20,13 @@ import { extname } from 'path';
 import { BooksService } from './books.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
+import { JwtAuthGuard } from '../auth/utils/Guards';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { Role } from '../users/entities/user.entity';
 
 @Controller('books')
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class BooksController {
   constructor(private readonly booksService: BooksService) {}
 
@@ -57,8 +64,19 @@ export class BooksController {
     return this.booksService.create(createBookDto, file);
   }
 
+  @Get('search')
+  async search(@Query('q') searchTerm: string) {
+    if (!searchTerm || searchTerm.trim().length === 0) {
+      return this.booksService.findAll();
+    }
+    return this.booksService.search(searchTerm);
+  }
+
   @Get()
-  async findAll() {
+  async findAll(@Query('q') searchTerm?: string) {
+    if (searchTerm) {
+      return this.booksService.search(searchTerm);
+    }
     return this.booksService.findAll();
   }
 
@@ -103,6 +121,7 @@ export class BooksController {
 
   @HttpCode(204)
   @Delete(':id')
+  @Roles(Role.ADMIN)
   async remove(@Param('id', ParseIntPipe) id: number) {
     return this.booksService.remove(id);
   }

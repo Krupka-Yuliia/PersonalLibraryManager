@@ -22,8 +22,11 @@ export class User {
   @Column({ unique: true })
   email: string;
 
-  @Column({ type: 'enum', enum: Role })
+  @Column({ type: 'enum', enum: Role, default: Role.USER })
   role: Role;
+
+  @Column({ nullable: true })
+  googleId?: string;
 
   @CreateDateColumn()
   createdAt: Date;
