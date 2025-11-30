@@ -38,8 +38,7 @@ export class UsersController {
     const currentUser = req.user as User;
     const targetUser = await this.usersService.findOne(id);
 
-    // Users can only view their own profile, admins can view any
-    if (currentUser.role !== Role.ADMIN && currentUser.id !== id) {
+    if (currentUser.id !== id) {
       throw new ForbiddenException('You can only view your own profile');
     }
 
@@ -61,8 +60,7 @@ export class UsersController {
   ) {
     const currentUser = req.user as User;
 
-    // Users can only update their own profile, admins can update any
-    if (currentUser.role !== Role.ADMIN && currentUser.id !== id) {
+    if (currentUser.id !== id) {
       throw new ForbiddenException('You can only update your own profile');
     }
 

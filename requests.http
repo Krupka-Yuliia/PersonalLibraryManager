@@ -28,7 +28,7 @@ Authorization: Bearer YOUR_TOKEN_HERE
 
 ### GET all users
 GET http://localhost:3000/api/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inl1bGlhdmlrYWtydXBrYUBnbWFpbC5jb20iLCJzdWIiOjIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzY0NTM0Nzk1LCJleHAiOjE3NjUxMzk1OTV9.jYJgKVg8W0oAThKd8RNY6-iaywExpVXdAYkJR3nlhNI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inl1bGlhdmlrYWtydXBrYUBnbWFpbC5jb20iLCJzdWIiOjIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzY0NTM2Njk5LCJleHAiOjE3NjUxNDE0OTl9.8Apt7lmAwb0skE4gwAX3Wyz_1bSQJysk5IWaedRjFB4
 
 
 ### GET all admins
@@ -70,18 +70,21 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inl1bGlhd
 
 ### GET genres
 GET localhost:3000/api/genres
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inl1bGlhdmlrYWtydXBrYUBnbWFpbC5jb20iLCJzdWIiOjIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzY0NTM0Nzk1LCJleHAiOjE3NjUxMzk1OTV9.jYJgKVg8W0oAThKd8RNY6-iaywExpVXdAYkJR3nlhNI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inl1bGlhdmlrYWtydXBrYUBnbWFpbC5jb20iLCJzdWIiOjIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzY0NTM2Njk5LCJleHAiOjE3NjUxNDE0OTl9.8Apt7lmAwb0skE4gwAX3Wyz_1bSQJysk5IWaedRjFB4
 
 
 
 ### GET genres by id
-GET localhost:3000/genres/3
+GET localhost:3000/api/genres/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inl1bGlhdmlrYWtydXBrYUBnbWFpbC5jb20iLCJzdWIiOjIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzY0NTM2Njk5LCJleHAiOjE3NjUxNDE0OTl9.8Apt7lmAwb0skE4gwAX3Wyz_1bSQJysk5IWaedRjFB4
+
+
 
 ### DELETE genres by id
-DELETE localhost:3000/genres/3
+DELETE localhost:3000/api/genres/3
 
 ### POST create genre
-POST localhost:3000/genres
+POST localhost:3000/api/genres
 Content-Type: application/json
 
 {
@@ -89,7 +92,7 @@ Content-Type: application/json
 }
 
 ### Update genre by id
-PATCH localhost:3000/genres/4
+PATCH localhost:3000/api/genres/4
 Content-Type: application/json
 
 {
@@ -100,10 +103,10 @@ Content-Type: application/json
 ### AUTHORS
 
 ### GET all authors
-GET localhost:3000/authors
+GET localhost:3000/api/authors
 
 ### POST create author
-POST localhost:3000/authors
+POST localhost:3000/api/authors
 Content-Type: application/json
 
 {
@@ -111,10 +114,10 @@ Content-Type: application/json
 }
 
 ### GET author by id
-GET localhost:3000/authors/1
+GET localhost:3000/api/authors/1
 
 ### PATCH author by id
-PATCH localhost:3000/authors/1
+PATCH localhost:3000/api/authors/1
 Content-Type: application/json
 
 {
@@ -122,31 +125,32 @@ Content-Type: application/json
 }
 
 ### DELETE author by id
-DELETE localhost:3000/authors/1
+DELETE localhost:3000/api/authors/1
 
 
 
 
 ###GET all books
-GET localhost:3000/books
+GET localhost:3000/api/books
 
 
 
 
 
 ### POST create user book
-POST http://localhost:3000/user-books
+POST http://localhost:3000/api/user-books
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inl1bGlhdmlrYWtydXBrYUBnbWFpbC5jb20iLCJzdWIiOjIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzY0NTM2Njk5LCJleHAiOjE3NjUxNDE0OTl9.8Apt7lmAwb0skE4gwAX3Wyz_1bSQJysk5IWaedRjFB4
 Content-Type: application/json
 
 {
-  "userId": 1,
+  "userId": 2,
   "bookId": 1,
   "rating": 5,
   "status": "completed"
 }
 
 ### PATCH create user book
-PATCH http://localhost:3000/user-books/1
+PATCH http://localhost:3000/api/user-books/1
 Content-Type: application/json
 
 {
@@ -154,20 +158,20 @@ Content-Type: application/json
 }
 
 ###GET user book by id
-GET localhost:3000/user-books/1
+GET localhost:3000/api/user-books/1
 
 
 ### GET all user book
-GET localhost:3000/user-books
+GET localhost:3000/api/user-books
 
 ### DELETE
-DELETE localhost:3000/user-books/2
+DELETE localhost:3000/api/user-books/2
 
 
 
 
 ### POST create reading goal
-POST http://localhost:3000/reading-goals
+POST http://localhost:3000/api/reading-goals
 Content-Type: application/json
 
 {
@@ -179,21 +183,21 @@ Content-Type: application/json
 }
 
 ### GET reading goal by id
-GET localhost:3000/reading-goals/1
+GET localhost:3000/api/reading-goals/1
 
 ### GET all reading goals
-GET localhost:3000/reading-goals
+GET localhost:3000/api/reading-goals
 
 ### GET all reading goals per user
-GET http://localhost:3000/reading-goals/user/1
+GET http://localhost:3000/api/reading-goals/user/1
 
 
 
 ### GET all notes
-GET localhost:3000/notes
+GET localhost:3000/api/notes
 
 ### POST create note
-POST localhost:3000/notes
+POST localhost:3000/api/notes
 Content-Type: application/json
 
 {
@@ -203,7 +207,7 @@ Content-Type: application/json
 }
 
 ### update note
-PATCH localhost:3000/notes/1
+PATCH localhost:3000/api/notes/1
 Content-Type: application/json
 
 {
@@ -213,13 +217,13 @@ Content-Type: application/json
 }
 
 ### GET note by user book
-GET localhost:3000/notes/user-book/1
+GET localhost:3000/api/notes/user-book/1
 
 ### GET note by id
-GET localhost:3000/notes/2
+GET localhost:3000/api/notes/2
 
 ### DELETE note by id
-DELETE localhost:3000/notes/2
+DELETE localhost:3000/api/notes/2
 
 
 
@@ -227,7 +231,7 @@ DELETE localhost:3000/notes/2
 ### ============================================
 
 ### POST - Створити запис книги для користувача
-POST http://localhost:3000/user-books
+POST http://localhost:3000/api/user-books
 Content-Type: application/json
 
 {
@@ -238,13 +242,13 @@ Content-Type: application/json
 }
 
 ### GET - Отримати всі записи user-books
-GET http://localhost:3000/user-books
+GET http://localhost:3000/api/user-books
 
 ### GET - Отримати user-book за ID
-GET http://localhost:3000/user-books/1
+GET http://localhost:3000/api/user-books/1
 
 ### PATCH - Оновити user-book (загальне оновлення)
-PATCH http://localhost:3000/user-books/1
+PATCH http://localhost:3000/api/user-books/1
 Content-Type: application/json
 
 {
@@ -253,41 +257,41 @@ Content-Type: application/json
 }
 
 ### DELETE - Видалити user-book
-DELETE http://localhost:3000/user-books/2
+DELETE http://localhost:3000/api/user-books/2
 
 ### ============================================
 ### ФІЛЬТРАЦІЯ ТА ПОШУК
 ### ============================================
 
 ### GET - Отримати всі книги користувача (без фільтрів)
-GET http://localhost:3000/user-books/user/1
+GET http://localhost:3000/api/user-books/user/1
 
 ### GET - Фільтр по статусу (to-read)
-GET http://localhost:3000/user-books/user/1?status=to-read
+GET http://localhost:3000/api/user-books/user/1?status=to-read
 
 ### GET - Фільтр по статусу (reading)
-GET http://localhost:3000/user-books/user/1?status=reading
+GET http://localhost:3000/api/user-books/user/1?status=reading
 
 ### GET - Фільтр по статусу (completed)
-GET http://localhost:3000/user-books/user/1?status=completed
+GET http://localhost:3000/api/user-books/user/1?status=completed
 
 ### GET - Фільтр по автору
-GET http://localhost:3000/user-books/user/1?authorId=1
+GET http://localhost:3000/api/user-books/user/1?authorId=1
 
 ### GET - Фільтр по жанру
-GET http://localhost:3000/user-books/user/1?genreId=1
+GET http://localhost:3000/api/user-books/user/1?genreId=1
 
 ### GET - Комбіновані фільтри (статус + автор)
-GET http://localhost:3000/user-books/user/1?status=to-read&authorId=1
+GET http://localhost:3000/api/user-books/user/1?status=to-read&authorId=1
 
 ### GET - Комбіновані фільтри (статус + жанр + автор)
-GET http://localhost:3000/user-books/user/1?status=to-read&authorId=1&genreId=1
+GET http://localhost:3000/api/user-books/user/1?status=to-read&authorId=1&genreId=1
 
 ### GET - Пошук книг по назві або автору
-GET http://localhost:3000/user-books/user/1/search?q=bad
+GET http://localhost:3000/api/user-books/user/1/search?q=bad
 
 ### GET - Пошук по назві автора
-GET http://localhost:3000/user-books/user/1/search?q=stephen
+GET http://localhost:3000/api/user-books/user/1/search?q=stephen
 
 
 
@@ -297,7 +301,7 @@ GET http://localhost:3000/user-books/user/1/search?q=stephen
 
 ### СЦЕНАРІЙ 1: Додати нову книгу і почати читати
 # 1. Додати книгу зі статусом "to-read"
-POST http://localhost:3000/user-books
+POST http://localhost:3000/api/user-books
 Content-Type: application/json
 
 {
@@ -307,7 +311,7 @@ Content-Type: application/json
 }
 
 ### 2. Оновити прогрес (автоматично змінить статус на "reading")
-PATCH http://localhost:3000/user-books/1/progress
+PATCH http://localhost:3000/api/user-books/1/progress
 Content-Type: application/json
 
 {
@@ -315,11 +319,11 @@ Content-Type: application/json
 }
 
 ### 3. Перевірити результат
-GET http://localhost:3000/user-books/1
+GET http://localhost:3000/api/user-books/1
 
 
 ### СЦЕНАРІЙ 2: Дочитати книгу
-PATCH http://localhost:3000/user-books/1/progress
+PATCH http://localhost:3000/api/user-books/1/progress
 Content-Type: application/json
 
 {
@@ -327,7 +331,7 @@ Content-Type: application/json
 }
 
 ### 2. Дочитати книгу (припустимо, 300 сторінок)
-PATCH http://localhost:3000/user-books/1/progress
+PATCH http://localhost:3000/api/user-books/1/progress
 Content-Type: application/json
 
 {
@@ -335,7 +339,7 @@ Content-Type: application/json
 }
 
 ### 3. Додати рейтинг
-PATCH http://localhost:3000/user-books/1
+PATCH http://localhost:3000/api/user-books/1
 Content-Type: application/json
 
 {
@@ -344,11 +348,11 @@ Content-Type: application/json
 
 
 ### СЦЕНАРІЙ 3: Отримати книги зі статусом "reading"
-GET http://localhost:3000/user-books/user/1?status=reading
+GET http://localhost:3000/api/user-books/user/1?status=reading
 
 
 ### СЦЕНАРІЙ 4: Перевірити статистику
-GET http://localhost:3000/user-books/user/1/stats
+GET http://localhost:3000/api/user-books/user/1/stats
 
 
 
@@ -357,7 +361,7 @@ GET http://localhost:3000/user-books/user/1/stats
 ### ============================================
 
 ### TEST - Невірний статус (повинен повернути помилку)
-PATCH http://localhost:3000/user-books/1/status
+PATCH http://localhost:3000/api/user-books/1/status
 Content-Type: application/json
 
 {
@@ -365,7 +369,7 @@ Content-Type: application/json
 }
 
 ### TEST - Від'ємна сторінка (повинен повернути помилку)
-PATCH http://localhost:3000/user-books/1/progress
+PATCH http://localhost:3000/api/user-books/1/progress
 Content-Type: application/json
 
 {
@@ -373,7 +377,7 @@ Content-Type: application/json
 }
 
 ### TEST - Рейтинг поза діапазоном (повинен повернути помилку)
-PATCH http://localhost:3000/user-books/1
+PATCH http://localhost:3000/api/user-books/1
 Content-Type: application/json
 
 {
@@ -381,7 +385,7 @@ Content-Type: application/json
 }
 
 ### TEST - Неіснуючий користувач або книга
-POST http://localhost:3000/user-books
+POST http://localhost:3000/api/user-books
 Content-Type: application/json
 
 {
@@ -391,7 +395,7 @@ Content-Type: application/json
 }
 
 ### TEST - Дублікат запису (користувач вже додав цю книгу)
-POST http://localhost:3000/user-books
+POST http://localhost:3000/api/user-books
 Content-Type: application/json
 
 {

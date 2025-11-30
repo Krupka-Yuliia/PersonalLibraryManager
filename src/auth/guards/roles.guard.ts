@@ -15,7 +15,7 @@ export class RolesGuard implements CanActivate {
     ]);
 
     if (!requiredRoles) {
-      return true; // No roles specified, allow access
+      return true;
     }
 
     const request = context.switchToHttp().getRequest();
@@ -28,4 +28,3 @@ export class RolesGuard implements CanActivate {
     return requiredRoles.some((role) => user.role === role);
   }
 }
-

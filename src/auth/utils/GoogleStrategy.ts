@@ -35,11 +35,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     });
   }
 
-  async validate(
-    accessToken: string,
-    refreshToken: string,
-    profile: Profile,
-  ) {
+  async validate(accessToken: string, refreshToken: string, profile: Profile) {
     try {
       this.logger.log(`Validating Google profile for user: ${profile.id}`);
 
@@ -64,15 +60,15 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
         `Processing OAuth for: ${emails[0].value} (Name: ${fullName})`,
       );
 
-    const user = await this.authService.validateOAuthUser({
-      googleId: id,
-      email: emails[0].value,
-      name: fullName,
-    });
+      const user = await this.authService.validateOAuthUser({
+        googleId: id,
+        email: emails[0].value,
+        name: fullName,
+      });
 
-    this.logger.log(`OAuth validation successful for user ID: ${user.id}`);
-    // Return the full user object - Passport will attach it to request.user
-    return user;
+      this.logger.log(`OAuth validation successful for user ID: ${user.id}`);
+      // Return the full user object - Passport will attach it to request.user
+      return user;
     } catch (error) {
       this.logger.error(
         `Error in Google OAuth validation: ${error instanceof Error ? error.message : 'Unknown error'}`,

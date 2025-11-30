@@ -17,14 +17,11 @@ export class AuthController {
 
   @Get('google/login')
   @UseGuards(GoogleAuthGuard)
-  handleLogin() {
-    // This method should never be reached as Passport will redirect to Google
-    // But we include it for type safety
-  }
+  handleLogin() {}
 
   @Get('google/redirect')
   @UseGuards(GoogleAuthGuard)
-  async handleLoginRedirect(@Req() req: Request) {
+  handleLoginRedirect(@Req() req: Request) {
     try {
       const user = req.user as User | undefined;
 
@@ -34,7 +31,6 @@ export class AuthController {
         );
       }
 
-      // Ensure we have a valid user object with all required fields
       if (!user.id || !user.email) {
         throw new UnauthorizedException(
           'Invalid user data received from OAuth provider.',
@@ -46,7 +42,6 @@ export class AuthController {
       if (error instanceof UnauthorizedException) {
         throw error;
       }
-      // Log the full error for debugging
       console.error('OAuth redirect error:', error);
       throw new InternalServerErrorException(
         `Authentication error: ${error instanceof Error ? error.message : 'Unknown error'}`,
