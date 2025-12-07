@@ -1,47 +1,46 @@
 ### ============================================
+### CONFIGURATION
+### ============================================
+### Base URL
+@baseUrl = http://localhost:3000/api
+
+### JWT Token - Replace with your actual token after Google OAuth login
+### Get token from: GET {{baseUrl}}/auth/google/login
+### After redirect, copy the access_token from the response
+@token = ...
+
+### ============================================
 ### AUTHENTICATION
 ### ============================================
 
 ### STEP 1: Start OAuth Login (Open this URL in your browser)
 ### This will redirect you to Google for authentication
 ### After authentication, you'll be redirected back with a JWT token
-GET http://localhost:3000/api/auth/google/login
+GET {{baseUrl}}/auth/google/login
 
 ### STEP 2: After Google authentication, you'll be redirected to:
-### http://localhost:3000/api/auth/google/redirect
-### The response will contain your access_token. Copy it!
-
-### STEP 3: Use the token in subsequent requests (replace YOUR_TOKEN_HERE with the actual token)
-### Example response from /google/redirect:
-### {
-###   "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-###   "user": { ... }
-### }
-
-### Get your profile (requires authentication)
-GET http://localhost:3000/api/auth/profile
-Authorization: Bearer YOUR_TOKEN_HERE
+### {{baseUrl}}/auth/google/redirect
+### The response will contain your access_token. Copy it and update @token above!
 
 ### ============================================
-### USERS (All endpoints require authentication)
+### USERS
 ### ============================================
 
-### GET all users
-GET http://localhost:3000/api/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inl1bGlhdmlrYWtydXBrYUBnbWFpbC5jb20iLCJzdWIiOjIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzY0NTM2Njk5LCJleHAiOjE3NjUxNDE0OTl9.8Apt7lmAwb0skE4gwAX3Wyz_1bSQJysk5IWaedRjFB4
+### GET all users (ADMIN only)
+GET {{baseUrl}}/users
+Authorization: Bearer {{token}}
 
-
-### GET all admins
-GET http://localhost:3000/api/users?role=USER
-Authorization: Bearer YOUR_TOKEN_HERE
+### GET users by role
+GET {{baseUrl}}/users?role=USER
+Authorization: Bearer {{token}}
 
 ### GET user by id
-GET http://localhost:3000/api/users/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inl1bGlhdmlrYWtydXBrYUBnbWFpbC5jb20iLCJzdWIiOjIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzY0NTM0Nzk1LCJleHAiOjE3NjUxMzk1OTV9.jYJgKVg8W0oAThKd8RNY6-iaywExpVXdAYkJR3nlhNI
+GET {{baseUrl}}/users/1
+Authorization: Bearer {{token}}
 
-### POST create user
-POST http://localhost:3000/api/users
-Authorization: Bearer YOUR_TOKEN_HERE
+### POST create user (ADMIN only)
+POST {{baseUrl}}/users
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
@@ -50,128 +49,249 @@ Content-Type: application/json
   "role": "ADMIN"
 }
 
-### update user
-PATCH http://localhost:3000/api/users/1
-Authorization: Bearer YOUR_TOKEN_HERE
+### PATCH update user
+PATCH {{baseUrl}}/users/1
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
   "email": "harrypotter3@gmail.com"
 }
 
-### DELETE user by id
-DELETE http://localhost:3000/api/users/2
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inl1bGlhdmlrYWtydXBrYUBnbWFpbC5jb20iLCJzdWIiOjIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzY0NTM0Nzk1LCJleHAiOjE3NjUxMzk1OTV9.jYJgKVg8W0oAThKd8RNY6-iaywExpVXdAYkJR3nlhNI
+### DELETE user by id (ADMIN only)
+DELETE {{baseUrl}}/users/2
+Authorization: Bearer {{token}}
 
-
-
-
-
-
-### GET genres
-GET localhost:3000/api/genres
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inl1bGlhdmlrYWtydXBrYUBnbWFpbC5jb20iLCJzdWIiOjIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzY0NTM2Njk5LCJleHAiOjE3NjUxNDE0OTl9.8Apt7lmAwb0skE4gwAX3Wyz_1bSQJysk5IWaedRjFB4
-
-
-
-### GET genres by id
-GET localhost:3000/api/genres/2
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inl1bGlhdmlrYWtydXBrYUBnbWFpbC5jb20iLCJzdWIiOjIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzY0NTM2Njk5LCJleHAiOjE3NjUxNDE0OTl9.8Apt7lmAwb0skE4gwAX3Wyz_1bSQJysk5IWaedRjFB4
-
-
-
-### DELETE genres by id
-DELETE localhost:3000/api/genres/3
-
-### POST create genre
-POST localhost:3000/api/genres
+### PATCH change user role (ADMIN only)
+PATCH {{baseUrl}}/users/2/role
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "name": "Comedy"
+  "role": "ADMIN"
 }
 
-### Update genre by id
-PATCH localhost:3000/api/genres/4
+### ============================================
+### GENRES
+### ============================================
+
+### GET all genres
+GET {{baseUrl}}/genres
+Authorization: Bearer {{token}}
+
+### GET genre by id
+GET {{baseUrl}}/genres/1
+Authorization: Bearer {{token}}
+
+### POST create genre
+POST {{baseUrl}}/genres
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Art"
+}
+
+### PATCH update genre (ADMIN only)
+PATCH {{baseUrl}}/genres/4
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
   "name": "Fantasy"
 }
 
+### DELETE genre by id (ADMIN only)
+DELETE {{baseUrl}}/genres/3
+Authorization: Bearer {{token}}
 
+### ============================================
 ### AUTHORS
+### ============================================
 
 ### GET all authors
-GET localhost:3000/api/authors
+GET {{baseUrl}}/authors
+Authorization: Bearer {{token}}
+
+### GET author by id
+GET {{baseUrl}}/authors/1
+Authorization: Bearer {{token}}
 
 ### POST create author
-POST localhost:3000/api/authors
+POST {{baseUrl}}/authors
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
   "name": "Stephen King"
 }
 
-### GET author by id
-GET localhost:3000/api/authors/1
-
-### PATCH author by id
-PATCH localhost:3000/api/authors/1
+### PATCH update author (ADMIN only)
+PATCH {{baseUrl}}/authors/1
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
   "name": "Artur Conan Doyle"
 }
 
-### DELETE author by id
-DELETE localhost:3000/api/authors/1
+### DELETE author by id (ADMIN only)
+DELETE {{baseUrl}}/authors/1
+Authorization: Bearer {{token}}
 
+### ============================================
+### BOOKS
+### ============================================
 
+### GET all books
+GET {{baseUrl}}/books
+Authorization: Bearer {{token}}
 
+### GET all books with search
+GET {{baseUrl}}/books?q=harry
+Authorization: Bearer {{token}}
 
-###GET all books
-GET localhost:3000/api/books
+### GET book by id
+GET {{baseUrl}}/books/1
+Authorization: Bearer {{token}}
 
-
-
-
-
-### POST create user book
-POST http://localhost:3000/api/user-books
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inl1bGlhdmlrYWtydXBrYUBnbWFpbC5jb20iLCJzdWIiOjIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzY0NTM2Njk5LCJleHAiOjE3NjUxNDE0OTl9.8Apt7lmAwb0skE4gwAX3Wyz_1bSQJysk5IWaedRjFB4
+### POST create book
+POST {{baseUrl}}/books
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "userId": 2,
+  "title": "Test Book",
+  "isbn": "1234567890",
+  "totalPages": 300,
+  "authorId": 1,
+  "genreId": 1
+}
+
+### PATCH update book (ADMIN only)
+PATCH {{baseUrl}}/books/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "Updated Book Title"
+}
+
+### DELETE book by id (ADMIN only)
+DELETE {{baseUrl}}/books/1
+Authorization: Bearer {{token}}
+
+### ============================================
+### USER-BOOKS - BASIC OPERATIONS
+### ============================================
+
+### POST - Create user-book record
+POST {{baseUrl}}/user-books
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "userId": 1,
   "bookId": 1,
   "rating": 5,
+  "status": "to-read"
+}
+
+### GET - Get all user-books (ADMIN only)
+GET {{baseUrl}}/user-books
+Authorization: Bearer {{token}}
+
+### GET - Get user-book by id
+GET {{baseUrl}}/user-books/1
+Authorization: Bearer {{token}}
+
+### PATCH - Update user-book
+PATCH {{baseUrl}}/user-books/2
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "rating": 4,
+  "review": "Great book!"
+}
+
+### PATCH - Update user-book status
+PATCH {{baseUrl}}/user-books/1/status
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
   "status": "completed"
 }
 
-### PATCH create user book
-PATCH http://localhost:3000/api/user-books/1
+### PATCH - Update reading progress
+PATCH {{baseUrl}}/user-books/1/progress
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "completedAt": "2024-12-26T00:00:00Z"
+  "currentPage": 25
 }
 
-###GET user book by id
-GET localhost:3000/api/user-books/1
+### DELETE - Delete user-book
+DELETE {{baseUrl}}/user-books/2
+Authorization: Bearer {{token}}
 
+### ============================================
+### USER-BOOKS - FILTERING & SEARCH
+### ============================================
 
-### GET all user book
-GET localhost:3000/api/user-books
+### GET - Get all books for a user
+GET {{baseUrl}}/user-books/user/1
+Authorization: Bearer {{token}}
 
-### DELETE
-DELETE localhost:3000/api/user-books/2
+### GET - Filter by status (to-read)
+GET {{baseUrl}}/user-books/user/1?status=to-read
+Authorization: Bearer {{token}}
 
+### GET - Filter by status (reading)
+GET {{baseUrl}}/user-books/user/1?status=reading
+Authorization: Bearer {{token}}
 
+### GET - Filter by status (completed)
+GET {{baseUrl}}/user-books/user/1?status=completed
+Authorization: Bearer {{token}}
 
+### GET - Filter by author
+GET {{baseUrl}}/user-books/user/1?authorId=1
+Authorization: Bearer {{token}}
 
-### POST create reading goal
-POST http://localhost:3000/api/reading-goals
+### GET - Filter by genre
+GET {{baseUrl}}/user-books/user/2?genreId=1
+Authorization: Bearer {{token}}
+
+### GET - Combined filters (status + author)
+GET {{baseUrl}}/user-books/user/1?status=to-read&authorId=1
+Authorization: Bearer {{token}}
+
+### GET - Combined filters (status + genre + author)
+GET {{baseUrl}}/user-books/user/1?status=to-read&authorId=1&genreId=1
+Authorization: Bearer {{token}}
+
+### GET - Search user books by title or author
+GET {{baseUrl}}/user-books/user/1/search?q=bad
+Authorization: Bearer {{token}}
+
+### GET - Get user statistics
+GET {{baseUrl}}/user-books/user/1/stats
+Authorization: Bearer {{token}}
+
+### GET - Get user statistics for specific year
+GET {{baseUrl}}/user-books/user/1/stats?year=2024
+Authorization: Bearer {{token}}
+
+### ============================================
+### READING GOALS
+### ============================================
+
+### POST - Create reading goal
+POST {{baseUrl}}/reading-goals
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
@@ -182,22 +302,43 @@ Content-Type: application/json
   "endDate": "2025-09-01"
 }
 
-### GET reading goal by id
-GET localhost:3000/api/reading-goals/1
+### GET - Get all reading goals (ADMIN only)
+GET {{baseUrl}}/reading-goals
+Authorization: Bearer {{token}}
 
-### GET all reading goals
-GET localhost:3000/api/reading-goals
+### GET - Get reading goal by id
+GET {{baseUrl}}/reading-goals/1
+Authorization: Bearer {{token}}
 
-### GET all reading goals per user
-GET http://localhost:3000/api/reading-goals/user/1
+### GET - Get all reading goals for a user
+GET {{baseUrl}}/reading-goals/user/1
+Authorization: Bearer {{token}}
 
+### PATCH - Update reading goal
+PATCH {{baseUrl}}/reading-goals/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
 
+{
+  "targetBooks": 15,
+  "isActive": true
+}
 
-### GET all notes
-GET localhost:3000/api/notes
+### DELETE - Delete reading goal
+DELETE {{baseUrl}}/reading-goals/1
+Authorization: Bearer {{token}}
 
-### POST create note
-POST localhost:3000/api/notes
+### ============================================
+### NOTES
+### ============================================
+
+### GET - Get all notes (ADMIN only)
+GET {{baseUrl}}/notes
+Authorization: Bearer {{token}}
+
+### POST - Create note
+POST {{baseUrl}}/notes
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
@@ -206,102 +347,36 @@ Content-Type: application/json
   "pageNumber": 10
 }
 
-### update note
-PATCH localhost:3000/api/notes/1
+### GET - Get note by id
+GET {{baseUrl}}/notes/1
+Authorization: Bearer {{token}}
+
+### GET - Get notes by user-book
+GET {{baseUrl}}/notes/user-book/1
+Authorization: Bearer {{token}}
+
+### PATCH - Update note
+PATCH {{baseUrl}}/notes/1
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
   "content": "I hate main character!!!",
-  "userBookId": 1,
   "pageNumber": 10
 }
 
-### GET note by user book
-GET localhost:3000/api/notes/user-book/1
-
-### GET note by id
-GET localhost:3000/api/notes/2
-
-### DELETE note by id
-DELETE localhost:3000/api/notes/2
-
-
-
-### USER-BOOKS - БАЗОВІ ОПЕРАЦІЇ
-### ============================================
-
-### POST - Створити запис книги для користувача
-POST http://localhost:3000/api/user-books
-Content-Type: application/json
-
-{
-  "userId": 1,
-  "bookId": 1,
-  "rating": 5,
-  "status": "to-read"
-}
-
-### GET - Отримати всі записи user-books
-GET http://localhost:3000/api/user-books
-
-### GET - Отримати user-book за ID
-GET http://localhost:3000/api/user-books/1
-
-### PATCH - Оновити user-book (загальне оновлення)
-PATCH http://localhost:3000/api/user-books/1
-Content-Type: application/json
-
-{
-  "rating": 4,
-  "completedAt": "2024-12-26T00:00:00Z"
-}
-
-### DELETE - Видалити user-book
-DELETE http://localhost:3000/api/user-books/2
+### DELETE - Delete note
+DELETE {{baseUrl}}/notes/2
+Authorization: Bearer {{token}}
 
 ### ============================================
-### ФІЛЬТРАЦІЯ ТА ПОШУК
+### TEST SCENARIOS
 ### ============================================
 
-### GET - Отримати всі книги користувача (без фільтрів)
-GET http://localhost:3000/api/user-books/user/1
-
-### GET - Фільтр по статусу (to-read)
-GET http://localhost:3000/api/user-books/user/1?status=to-read
-
-### GET - Фільтр по статусу (reading)
-GET http://localhost:3000/api/user-books/user/1?status=reading
-
-### GET - Фільтр по статусу (completed)
-GET http://localhost:3000/api/user-books/user/1?status=completed
-
-### GET - Фільтр по автору
-GET http://localhost:3000/api/user-books/user/1?authorId=1
-
-### GET - Фільтр по жанру
-GET http://localhost:3000/api/user-books/user/1?genreId=1
-
-### GET - Комбіновані фільтри (статус + автор)
-GET http://localhost:3000/api/user-books/user/1?status=to-read&authorId=1
-
-### GET - Комбіновані фільтри (статус + жанр + автор)
-GET http://localhost:3000/api/user-books/user/1?status=to-read&authorId=1&genreId=1
-
-### GET - Пошук книг по назві або автору
-GET http://localhost:3000/api/user-books/user/1/search?q=bad
-
-### GET - Пошук по назві автора
-GET http://localhost:3000/api/user-books/user/1/search?q=stephen
-
-
-
-### ============================================
-### ТЕСТОВІ СЦЕНАРІЇ
-### ============================================
-
-### СЦЕНАРІЙ 1: Додати нову книгу і почати читати
-# 1. Додати книгу зі статусом "to-read"
-POST http://localhost:3000/api/user-books
+### SCENARIO 1: Add new book and start reading
+### 1. Add book with "to-read" status
+POST {{baseUrl}}/user-books
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
@@ -310,82 +385,80 @@ Content-Type: application/json
   "status": "to-read"
 }
 
-### 2. Оновити прогрес (автоматично змінить статус на "reading")
-PATCH http://localhost:3000/api/user-books/1/progress
+### 2. Update progress (automatically changes status to "reading")
+PATCH {{baseUrl}}/user-books/1/progress
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-"currentPage": 25
+  "currentPage": 25
 }
 
-### 3. Перевірити результат
-GET http://localhost:3000/api/user-books/1
+### 3. Check result
+GET {{baseUrl}}/user-books/1
+Authorization: Bearer {{token}}
 
-
-### СЦЕНАРІЙ 2: Дочитати книгу
-PATCH http://localhost:3000/api/user-books/1/progress
+### SCENARIO 2: Complete a book
+### 1. Update progress to complete the book (assuming 300 pages)
+PATCH {{baseUrl}}/user-books/1/progress
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "currentPage": 150
+  "currentPage": 300
 }
 
-### 2. Дочитати книгу (припустимо, 300 сторінок)
-PATCH http://localhost:3000/api/user-books/1/progress
+### 2. Add rating
+PATCH {{baseUrl}}/user-books/1
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-"currentPage": 300
+  "rating": 5
 }
 
-### 3. Додати рейтинг
-PATCH http://localhost:3000/api/user-books/1
-Content-Type: application/json
+### SCENARIO 3: Get books with "reading" status
+GET {{baseUrl}}/user-books/user/1?status=reading
+Authorization: Bearer {{token}}
 
-{
-"rating": 5
-}
-
-
-### СЦЕНАРІЙ 3: Отримати книги зі статусом "reading"
-GET http://localhost:3000/api/user-books/user/1?status=reading
-
-
-### СЦЕНАРІЙ 4: Перевірити статистику
-GET http://localhost:3000/api/user-books/user/1/stats
-
-
+### SCENARIO 4: Check statistics
+GET {{baseUrl}}/user-books/user/1/stats
+Authorization: Bearer {{token}}
 
 ### ============================================
-### ВАЛІДАЦІЯ ПОМИЛОК
+### VALIDATION TESTS
 ### ============================================
 
-### TEST - Невірний статус (повинен повернути помилку)
-PATCH http://localhost:3000/api/user-books/1/status
+### TEST - Invalid status (should return error)
+PATCH {{baseUrl}}/user-books/1/status
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
   "status": "invalid-status"
 }
 
-### TEST - Від'ємна сторінка (повинен повернути помилку)
-PATCH http://localhost:3000/api/user-books/1/progress
+### TEST - Negative page number (should return error)
+PATCH {{baseUrl}}/user-books/1/progress
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
   "currentPage": -10
 }
 
-### TEST - Рейтинг поза діапазоном (повинен повернути помилку)
-PATCH http://localhost:3000/api/user-books/1
+### TEST - Rating out of range (should return error)
+PATCH {{baseUrl}}/user-books/1
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
   "rating": 10
 }
 
-### TEST - Неіснуючий користувач або книга
-POST http://localhost:3000/api/user-books
+### TEST - Non-existent user or book
+POST {{baseUrl}}/user-books
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
@@ -394,8 +467,9 @@ Content-Type: application/json
   "status": "to-read"
 }
 
-### TEST - Дублікат запису (користувач вже додав цю книгу)
-POST http://localhost:3000/api/user-books
+### TEST - Duplicate record (user already added this book)
+POST {{baseUrl}}/user-books
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
