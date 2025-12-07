@@ -28,10 +28,7 @@ export class NoteController {
   @Post()
   async create(@Body() dto: CreateNoteDto, @CurrentUser() currentUser: User) {
     const userBook = await this.noteService.getUserBookById(dto.userBookId);
-    if (
-      currentUser.role !== Role.ADMIN &&
-      userBook.user.id !== currentUser.id
-    ) {
+    if (userBook.user.id !== currentUser.id) {
       throw new ForbiddenException(
         'You can only create notes for your own books',
       );

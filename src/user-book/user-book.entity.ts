@@ -23,18 +23,17 @@ export class UserBook {
   @ManyToOne(() => Book, { nullable: false, onDelete: 'CASCADE' })
   book: Book;
 
-  @Column({ type: 'int', nullable: true, comment: 'User rating 1-5' })
+  @Column({ type: 'int', nullable: true })
   rating?: number | null;
 
   @Column({
     type: 'enum',
     enum: Status,
     default: Status.ToRead,
-    comment: 'to-read / reading / completed',
   })
   status: Status;
 
-  @Column({ type: 'int', default: 0, comment: 'Current page number' })
+  @Column({ type: 'int', default: 0 })
   currentPage: number;
 
   @Column({ type: 'timestamp', nullable: true })

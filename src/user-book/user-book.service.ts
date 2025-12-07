@@ -10,6 +10,7 @@ import { CreateUserBookDto, Status } from './dto/create-user-book.dto';
 import { UpdateUserBookDto } from './dto/update-user-book.dto';
 import { User } from '../users/entities/user.entity';
 import { Book } from '../books/book.enity';
+import { ReadingGoal } from '../reading-goals/reading-goal.entity';
 
 @Injectable()
 export class UserBooksService {
@@ -20,6 +21,8 @@ export class UserBooksService {
     private userRepo: Repository<User>,
     @InjectRepository(Book)
     private bookRepo: Repository<Book>,
+    @InjectRepository(ReadingGoal)
+    private readingGoalRepo: Repository<ReadingGoal>,
   ) {}
 
   async create(dto: CreateUserBookDto): Promise<UserBook> {
@@ -135,6 +138,7 @@ export class UserBooksService {
 
     if (status === Status.Completed && !userBook.completedAt) {
       userBook.completedAt = new Date();
+      await this.updateReadingGoals(userBook.user.id);
     }
 
     if (status !== Status.Completed) {
@@ -154,6 +158,7 @@ export class UserBooksService {
       userBook.startedAt = new Date();
     }
 
+    const wasCompleted = userBook.status === Status.Completed;
     if (
       currentPage >= userBook.book.totalPages &&
       userBook.status !== Status.Completed
@@ -162,13 +167,41 @@ export class UserBooksService {
       userBook.completedAt = new Date();
     }
 
-    return this.userBookRepo.save(userBook);
+    const saved = await this.userBookRepo.save(userBook);
+
+    if (!wasCompleted && saved.status === Status.Completed) {
+      await this.updateReadingGoals(saved.user.id);
+    }
+
+    return saved;
+  }
+
+  private async updateReadingGoals(userId: number): Promise<void> {
+    const activeGoals = await this.readingGoalRepo.find({
+      where: {
+        user: { id: userId },
+        isActive: true,
+      },
+    });
+
+    const completedCount = await this.userBookRepo.count({
+      where: {
+        user: { id: userId },
+        status: Status.Completed,
+      },
+    });
+
+    for (const goal of activeGoals) {
+      goal.completedBooks = completedCount;
+      await this.readingGoalRepo.save(goal);
+    }
   }
 
   async getUserBookStats(userId: number, year?: number) {
     const query = this.userBookRepo
       .createQueryBuilder('userBook')
       .leftJoinAndSelect('userBook.book', 'book')
+      .leftJoinAndSelect('book.genre', 'genre')
       .where('userBook.userId = :userId', { userId });
 
     if (year) {
@@ -176,22 +209,59 @@ export class UserBooksService {
     }
 
     const books = await query.getMany();
+    const completedBooks = books.filter((b) => b.status === Status.Completed);
+    const booksWithRatings = books.filter((b) => b.rating);
+
+    const genreCounts = new Map<string, number>();
+    completedBooks.forEach((b) => {
+      if (b.book?.genre?.name) {
+        genreCounts.set(
+          b.book.genre.name,
+          (genreCounts.get(b.book.genre.name) || 0) + 1,
+        );
+      }
+    });
+
+    let favoriteGenre: string | null = null;
+    let maxCount = 0;
+    genreCounts.forEach((count, genre) => {
+      if (count > maxCount) {
+        maxCount = count;
+        favoriteGenre = genre;
+      }
+    });
+
+    const recentlyAdded = books
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+      .slice(0, 5)
+      .map((b) => ({
+        id: b.id,
+        book: {
+          id: b.book.id,
+          title: b.book.title,
+          author: b.book.author?.name,
+          coverUrl: b.book.coverUrl,
+        },
+        status: b.status,
+        createdAt: b.createdAt,
+      }));
 
     return {
       totalBooks: books.length,
-      completed: books.filter((b) => b.status === Status.Completed).length,
+      completed: completedBooks.length,
       reading: books.filter((b) => b.status === Status.Reading).length,
       toRead: books.filter((b) => b.status === Status.ToRead).length,
-      totalPages: books
-        .filter((b) => b.status === Status.Completed)
-        .reduce((sum, b) => sum + (b.book?.totalPages || 0), 0),
+      totalPages: completedBooks.reduce(
+        (sum, b) => sum + (b.book?.totalPages || 0),
+        0,
+      ),
       averageRating:
-        books.filter((b) => b.rating).length > 0
-          ? books
-              .filter((b) => b.rating)
-              .reduce((sum, b) => sum + b.rating!, 0) /
-            books.filter((b) => b.rating).length
+        booksWithRatings.length > 0
+          ? booksWithRatings.reduce((sum, b) => sum + b.rating!, 0) /
+            booksWithRatings.length
           : 0,
+      favoriteGenre,
+      recentlyAddedBooks: recentlyAdded,
     };
   }
 }

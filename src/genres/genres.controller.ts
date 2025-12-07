@@ -30,6 +30,7 @@ export class GenresController {
   }
 
   @Get(':id')
+  @Roles(Role.ADMIN, Role.USER)
   findOne(@Param('id', ParseIntPipe) id: number): Promise<Genre> {
     return this.genresService.findOne(id);
   }

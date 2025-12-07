@@ -102,7 +102,14 @@ export class UserBooksController {
     if (userBook.user.id !== currentUser.id) {
       throw new ForbiddenException('You can only view your own user-books');
     }
-    return userBook;
+    const progressPercentage =
+      userBook.book.totalPages > 0
+        ? Math.round((userBook.currentPage / userBook.book.totalPages) * 100)
+        : 0;
+    return {
+      ...userBook,
+      progressPercentage,
+    };
   }
 
   @Patch(':id')

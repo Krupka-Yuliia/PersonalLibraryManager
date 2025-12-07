@@ -5,6 +5,8 @@ import { ReadingGoal } from './reading-goal.entity';
 import { UpdateReadingGoalDto } from './dto/update-reading-goal.dto';
 import { CreateReadingGoalDto } from './dto/create-reading-goals.dto';
 import { User } from '../users/entities/user.entity';
+import { UserBook } from '../user-book/user-book.entity';
+import { Status } from '../user-book/dto/create-user-book.dto';
 
 @Injectable()
 export class ReadingGoalsService {
@@ -13,6 +15,8 @@ export class ReadingGoalsService {
     private readingGoalsRepository: Repository<ReadingGoal>,
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    @InjectRepository(UserBook)
+    private userBookRepository: Repository<UserBook>,
   ) {}
 
   async create(dto: CreateReadingGoalDto): Promise<ReadingGoal> {
@@ -21,11 +25,18 @@ export class ReadingGoalsService {
     });
     if (!user) throw new NotFoundException('User not found');
 
+    const completedCount = await this.userBookRepository.count({
+      where: {
+        user: { id: dto.userId },
+        status: Status.Completed,
+      },
+    });
+
     const goal = this.readingGoalsRepository.create({
       user,
       goalName: dto.goalName,
       targetBooks: dto.targetBooks,
-      completedBooks: dto.completedBooks ?? 0,
+      completedBooks: dto.completedBooks ?? completedCount,
       startDate: dto.startDate,
       endDate: dto.endDate,
       isActive: dto.isActive ?? true,

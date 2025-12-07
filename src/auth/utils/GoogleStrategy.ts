@@ -67,7 +67,6 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
       });
 
       this.logger.log(`OAuth validation successful for user ID: ${user.id}`);
-      // Return the full user object - Passport will attach it to request.user
       return user;
     } catch (error) {
       this.logger.error(

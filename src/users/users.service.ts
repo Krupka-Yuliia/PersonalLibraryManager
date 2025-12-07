@@ -67,4 +67,10 @@ export class UsersService {
     const user = await this.findOne(id);
     return this.userRepository.remove(user);
   }
+
+  async changeRole(id: number, role: Role): Promise<User> {
+    const user = await this.findOne(id);
+    user.role = role;
+    return this.userRepository.save(user);
+  }
 }

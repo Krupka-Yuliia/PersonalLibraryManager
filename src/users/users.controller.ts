@@ -16,6 +16,7 @@ import type { Request } from 'express';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { ChangeRoleDto } from './dto/change-role.dto';
 import { Role } from './entities/user.entity';
 import { JwtAuthGuard } from '../auth/utils/Guards';
 import { RolesGuard } from '../auth/guards/roles.guard';
@@ -72,5 +73,14 @@ export class UsersController {
   @Roles(Role.ADMIN)
   delete(@Param('id') id: number) {
     return this.usersService.delete(id);
+  }
+
+  @Patch(':id/role')
+  @Roles(Role.ADMIN)
+  changeRole(
+    @Param('id') id: number,
+    @Body() changeRoleDto: ChangeRoleDto,
+  ) {
+    return this.usersService.changeRole(id, changeRoleDto.role);
   }
 }

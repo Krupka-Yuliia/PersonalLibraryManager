@@ -1,4 +1,4 @@
-import { IsInt, Min, Max, IsOptional, IsEnum } from 'class-validator';
+import { IsInt, Min, Max, IsOptional, IsEnum, IsString } from 'class-validator';
 
 export enum Status {
   ToRead = 'to-read',
@@ -17,11 +17,16 @@ export class CreateUserBookDto {
   @IsOptional()
   @Min(1)
   @Max(5)
-  rating: number;
+  rating?: number;
 
-  @IsEnum(Status, { message: 'Role must be to-read, reading or completed' })
-  status: Status;
+  @IsEnum(Status, { message: 'Status must be to-read, reading or completed' })
+  @IsOptional()
+  status?: Status;
+
+  @IsString()
+  @IsOptional()
+  review?: string;
 
   @IsOptional()
-  completedAt: Date;
+  completedAt?: Date;
 }

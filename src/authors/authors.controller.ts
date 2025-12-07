@@ -23,17 +23,20 @@ export class AuthorsController {
   constructor(private readonly authorsService: AuthorsService) {}
 
   @Get()
+  @Roles(Role.ADMIN, Role.USER)
   findAll() {
     return this.authorsService.findAll();
   }
 
   @Get(':id')
+  @Roles(Role.ADMIN, Role.USER)
   findOne(@Param('id') id: number) {
     return this.authorsService.findOne(id);
   }
 
   @HttpCode(201)
   @Post()
+  @Roles(Role.ADMIN, Role.USER)
   create(@Body() createAuthorDto: CreateAuthorDto) {
     return this.authorsService.create(createAuthorDto);
   }

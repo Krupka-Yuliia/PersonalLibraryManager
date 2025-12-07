@@ -51,7 +51,12 @@ export class ReadingGoalsController {
     if (goal.user.id !== currentUser.id) {
       throw new ForbiddenException('You can only view your own reading goals');
     }
-    return goal;
+    return {
+      ...goal,
+      progressPercentage: Math.round(
+        (goal.completedBooks / goal.targetBooks) * 100,
+      ),
+    };
   }
 
   @Patch(':id')
@@ -89,6 +94,12 @@ export class ReadingGoalsController {
     if (currentUser.id !== userId) {
       throw new ForbiddenException('You can only view your own reading goals');
     }
-    return this.readingGoalsService.getReadingGoalsByUser(userId);
+    const goals = await this.readingGoalsService.getReadingGoalsByUser(userId);
+    return goals.map((goal) => ({
+      ...goal,
+      progressPercentage: Math.round(
+        (goal.completedBooks / goal.targetBooks) * 100,
+      ),
+    }));
   }
 }
