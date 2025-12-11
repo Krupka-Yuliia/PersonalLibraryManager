@@ -5,4 +5,3 @@ export class ChangeRoleDto {
   @IsEnum(Role, { message: 'Role must be USER or ADMIN' })
   role: Role;
 }
-
